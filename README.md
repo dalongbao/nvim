@@ -1,5 +1,10 @@
 # kickstart.nvim
 
+Additional commands:
+* :TORCH gives you torch boilerplate
+* :HTML gives you html boilerplate
+* :IMG <imagename> adds a line for image.png in src in markdown (e.g ![example](src/example.png))
+
 ## Introduction
 
 A starting point for Neovim that is:
