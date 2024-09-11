@@ -11,10 +11,10 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 
 -- Make line numbers default
-vim.opt.number = true
+-- vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -115,6 +115,47 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Folding text
+-- Treesitter folding
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+
+-- Configure fold settings
+vim.opt.foldenable = false  -- Disable folding at startup
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+
+-- Function to enable folding and apply fold method
+local function enable_folding()
+    vim.wo.foldenable = true
+    vim.wo.foldmethod = 'expr'
+    vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+end
+
+-- Enable folding when entering a buffer, but keep everything unfolded
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--     callback = function()
+--         enable_folding()
+--         vim.cmd("normal zR")
+--     end
+-- })
+
+-- Re-apply folding when saving a file
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--    callback = function()
+--         enable_folding()
+--    end
+-- })
+
+vim.api.nvim_create_user_command('IMG', function(opts)
+    local args = opts.args
+    local image_name = args:match("^(%S+)")
+    local extension = args:match("%s+(%S+)$") or "png"
+    local text = string.format("![%s](src/%s.%s)", image_name, image_name, extension)
+    vim.api.nvim_put({text}, 'c', true, true)
+end, {nargs = '+', desc = 'Insert markdown image syntax'})
+
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -766,6 +807,7 @@ require('lazy').setup({
     "catppuccin/nvim",
     name = "catppuccin",
     -- "ellisonleao/gruvbox.nvim",
+    -- name = "gruvbox",
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
