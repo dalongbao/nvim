@@ -102,6 +102,9 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- make :c -> :w !pbcopy
+vim.api.nvim_create_user_command('C', 'w !pbcopy', {})
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -198,6 +201,10 @@ end, {})
 
 vim.api.nvim_create_user_command("HTML", function()
   insert_template(vim.fn.expand("~/.config/nvim/templates/template.html"))
+end, {})
+
+vim.api.nvim_create_user_command("TEX", function()
+  insert_template(vim.fn.expand("~/.config/nvim/templates/template.tex"))
 end, {})
 
 -- [[ Configure and install plugins ]]
@@ -804,16 +811,17 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     -- 'folke/tokyonight.nvim',
-    "catppuccin/nvim",
-    name = "catppuccin",
-    -- "ellisonleao/gruvbox.nvim",
+    -- "catppuccin/nvim",
+    "ellisonleao/gruvbox.nvim",
+    name = "gruvbox",
+    -- "catppuccin",
     -- name = "gruvbox",
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'catppuccin'
+      vim.cmd.colorscheme 'gruvbox'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -1045,29 +1053,30 @@ require('lazy').setup({
       vim.keymap.set({ 'n', 'v' }, '<leader>I', anthropic_help, { desc = 'llm anthropic_help' })
       vim.keymap.set({ 'n', 'v' }, '<leader>i', anthropic_replace, { desc = 'llm anthropic' })
     end,
-  },
   { import = 'custom.plugins' },
-}, {
-  ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
+  }, 
+  -- {
+  --   ui = {
+  --   -- If you are using a Nerd Font: set icons to an empty table which will use the
+  --   -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+  --   -- icons = vim.g.have_nerd_font and {} or {
+  --     cmd = '⌘',
+  --     config = '🛠',
+  --     event = '📅',
+  --     ft = '📂',
+  --     init = '⚙',
+  --     keys = '🗝',
+  --     plugin = '🔌',
+  --     runtime = '💻',
+  --     require = '🌙',
+  --     source = '📄',
+  --     start = '🚀',
+  --     task = '📌',
+  --     lazy = '💤 ',
+  --   },
+  -- },
 })
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
