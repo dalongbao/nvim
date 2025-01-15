@@ -51,6 +51,11 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+-- Enable autoindent
+vim.opt.autoindent = true
+-- Enable smart indent
+vim.opt.smartindent = true
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -193,6 +198,10 @@ end
 -- Create user commands
 vim.api.nvim_create_user_command("MLX", function()
   insert_template(vim.fn.expand("~/.config/nvim/templates/mlx.py"))
+end, {})
+
+vim.api.nvim_create_user_command("MLXC", function()
+  insert_template(vim.fn.expand("~/.config/nvim/templates/MLXC.py"))
 end, {})
 
 vim.api.nvim_create_user_command("TORCH", function()
@@ -811,17 +820,16 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     -- 'folke/tokyonight.nvim',
-    -- "catppuccin/nvim",
-    "ellisonleao/gruvbox.nvim",
-    name = "gruvbox",
-    -- "catppuccin",
+    "catppuccin/nvim",
+    -- "ellisonleao/gruvbox.nvim",
     -- name = "gruvbox",
+    name = "catppuccin",
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'catppuccin-mocha'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
